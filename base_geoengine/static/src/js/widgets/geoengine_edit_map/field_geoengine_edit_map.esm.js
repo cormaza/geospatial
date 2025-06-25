@@ -66,24 +66,18 @@ export class FieldGeoEngineEditMap extends Component {
         const colorHex = this.props.color === undefined ? "#ee9900" : this.props.color;
         const opacity = this.props.opacity === undefined ? 1 : this.props.opacity;
         const color = chroma(colorHex).alpha(opacity).css();
-        const fill = new ol.style.Fill({
-            color: color,
-        });
-        const stroke = new ol.style.Stroke({
-            color,
-            width: 2,
-        });
-        return new ol.layer.Vector({
+        const WebGLStyle = {
+            "fill-color": color,
+            "stroke-width": 2,
+            "stroke-color": color,
+            "circle-radius": 6,
+            "circle-fill-color": color,
+            "circle-stroke-width": 1,
+            "circle-stroke-color": "black",
+        };
+        return new ol.layer.WebGLVector({
             source: this.source,
-            style: new ol.style.Style({
-                fill,
-                stroke,
-                image: new ol.style.Circle({
-                    radius: 5,
-                    fill,
-                    stroke,
-                }),
-            }),
+            style: WebGLStyle,
         });
     }
 
