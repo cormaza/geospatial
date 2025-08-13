@@ -4,7 +4,7 @@
  * Copyright 2023 ACSONE SA/NV
  */
 
-import {Component, useState} from "@odoo/owl";
+import {Component, onWillStart, useState} from "@odoo/owl";
 import {FormViewDialog} from "@web/views/view_dialogs/form_view_dialog";
 import {Layout} from "@web/search/layout";
 import {SearchBar} from "@web/search/search_bar/search_bar";
@@ -17,6 +17,7 @@ import {useModelWithSampleData} from "@web/model/model";
 import {useOwnedDialogs, useService} from "@web/core/utils/hooks";
 import {usePager} from "@web/search/pager_hook";
 import {useSearchBarToggler} from "@web/search/search_bar/search_bar_toggler";
+import {loadCDNLibraries} from "../../../cdn_loader.esm";
 
 export class GeoengineController extends Component {
     /**
@@ -33,6 +34,11 @@ export class GeoengineController extends Component {
             useModelWithSampleData(this.props.Model, this.modelParams)
         );
         this.searchBarToggler = useSearchBarToggler();
+
+        // Ensure geoengine assets are loaded
+        onWillStart(async () => {
+            await loadCDNLibraries();
+        });
         /**
          * Allow you to display records on the map thanks to the paging located
          * at the top right of the screen.

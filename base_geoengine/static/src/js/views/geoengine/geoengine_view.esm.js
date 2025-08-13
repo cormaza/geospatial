@@ -11,6 +11,7 @@ import {GeoengineRenderer} from "./geoengine_renderer/geoengine_renderer.esm";
 import {RelationalModel} from "@web/model/relational_model/relational_model";
 import {_t} from "@web/core/l10n/translation";
 import {registry} from "@web/core/registry";
+import {loadCDNLibraries} from "../../cdn_loader.esm";
 
 export const geoengineView = {
     type: "geoengine",
@@ -34,6 +35,11 @@ export const geoengineView = {
             Renderer: view.Renderer,
             archInfo,
         };
+    },
+
+    // Preload geoengine assets when view is registered
+    async preload() {
+        await loadCDNLibraries();
     },
 };
 

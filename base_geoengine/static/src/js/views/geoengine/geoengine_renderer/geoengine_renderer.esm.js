@@ -30,7 +30,6 @@ import {
     extractFieldsFromArchInfo,
 } from "@web/model/relational_model/utils";
 import {evaluateExpr} from "@web/core/py_js/py";
-import {loadBundle} from "@web/core/assets";
 import {getTemplate} from "@web/core/templates";
 import {parseXML} from "@web/core/utils/xml";
 import {rasterLayersStore} from "../../../raster_layers_store.esm";
@@ -38,6 +37,7 @@ import {registry} from "@web/core/registry";
 import {user} from "@web/core/user";
 import {useService} from "@web/core/utils/hooks";
 import {vectorLayersStore} from "../../../vector_layers_store.esm";
+import {loadCDNLibraries} from "../../../cdn_loader.esm";
 
 /* CONSTANTS */
 const DEFAULT_BEGIN_COLOR = "#FFFFFF";
@@ -74,15 +74,15 @@ export class GeoengineRenderer extends Component {
             this.services[key] = useService(key);
         }
 
-        onWillStart(async () =>
-            Promise.all([
-                loadBundle("base_geoengine.assets_jsLibs_geoengine"),
+        onWillStart(async () => {
+            await Promise.all([
+                loadCDNLibraries(),
                 this.loadVectorModel(),
                 (this.isGeoengineAdmin = await user.hasGroup(
                     "base_geoengine.group_geoengine_admin"
                 )),
-            ])
-        );
+            ]);
+        });
 
         onMounted(() => {
             // Retrives all vector layers in the store.
