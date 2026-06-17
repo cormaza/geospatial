@@ -1,0 +1,5 @@
+---Models in module 'base_geoengine'---
+---Fields in module 'base_geoengine'---
+base_geoengine / geoengine.vector.layer   / intermediate_colors (char)    : DEL
+base_geoengine / ir.ui.view               / type (False)                  : selection_keys added: [list], removed: [gantt, tree]
+---XML records in module 'base_geoengine'---
